@@ -11,13 +11,11 @@ CORS(app)  # Enable CORS for all routes
 PUBLIC_KEY = "NZ_PUB_7f9a2e8c4b6d1a5f3e0c9b7a4d2f8e1c"
 SECRET_KEY_FILE = "static/data/secret_key.txt"
 
-
 def load_json(filename):
     """Load JSON data from file"""
     filepath = os.path.join('static/data', filename)
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
-
 
 def get_secret_key():
     """Get secret key from file"""
@@ -26,7 +24,6 @@ def get_secret_key():
             return f.read().strip()
     except FileNotFoundError:
         return None
-
 
 def require_api_keys(f):
     """Decorator to require API keys"""
@@ -53,18 +50,15 @@ def require_api_keys(f):
 
     return decorated_function
 
-
 @app.route('/')
 def index():
     """Home page"""
     return render_template('index.html')
 
-
 @app.route('/contact')
 def contact():
     """Contact page"""
     return render_template('contact.html')
-
 
 @app.route('/api/health')
 def api_health():
@@ -78,7 +72,6 @@ def api_health():
             'v2rays': '/api/v2rays (requires authentication)'
         }
     }), 200
-
 
 @app.route('/api/v2rays')
 @require_api_keys
@@ -97,7 +90,6 @@ def api_v2rays():
             'message': str(e)
         }), 500
 
-
 @app.route('/api/apps')
 def api_apps():
     """Get supported apps list"""
@@ -114,7 +106,6 @@ def api_apps():
             'message': str(e)
         }), 500
 
-
 @app.route('/whatsapp')
 def whatsapp():
     """Redirect to WhatsApp group"""
@@ -125,20 +116,15 @@ def discord():
     """Redirect to Discord server"""
     return redirect("https://discord.gg/DhPZ8uMv4v", code=302)
 
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     """404 error handler"""
     return render_template('404.html'), 404
-
 
 @app.errorhandler(500)
 def internal_error(e):
     """500 error handler"""
     return render_template('404.html'), 500
 
-
 if __name__ == '__main__':
-
     app.run(debug=True)
